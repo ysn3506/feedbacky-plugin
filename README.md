@@ -10,7 +10,8 @@ It provides a feedback modal for your web app without any effort, just import an
 
 ## Usage
 
-`<feedbacky-plugin
+```
+<feedbacky-plugin
           title='SEND YOUR FEEDBACK'
           titleTextColor='purple'
           submitText='WE HAVE GOT YOUR FEEDBACK'
@@ -27,16 +28,16 @@ It provides a feedback modal for your web app without any effort, just import an
           textAreaPlaceholder='Maximum 2000 characters can be entered'>
 </feedbacky-plugin>
 
-`
+```
 
 ## **Managing the feedbacks**
 
 In order to provide an easy management on feedbacks, a custom event ('feedback-received') is dispatched to window object, You can easily listen the event as in the example
 
-`window.addEventListener("feedback-received", 
-        (e) =>	console.log(e.detail) 
-        // output: {feedback:"Awesome!", device:"mobile", path:"/" }
+```
+    window.addEventListener("feedback-received",
+        (e) =>	console.log(e.detail)  // output: {feedback:"Awesome!", device:"mobile", path:"/" }
     );
-`
+```
 
 ### If you want to contribute, you are welcome!
