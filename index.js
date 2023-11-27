@@ -225,6 +225,12 @@ export class FeedbackyPlugin extends LitElement {
 	}
 
 	renderModal() {
+		this.title = this.title || "SEND FEEDBACK";
+		this.buttonText = this.buttonText || "SEND";
+		this.onSubmittingText = this.onSubmittingText || "SENDING";
+		this.submitText = this.submitText || "WE HAVE GOT YOUR FEEDBACK";
+		this.textAreaPlaceholder =
+			this.textAreaPlaceholder || "You can type 2000 characters maximum";
 		const styleTitleTextColor = { color: this.titleTextColor || "black" };
 		const styleSubmitTextColor = { color: this.submitTextColor || "black" };
 		const styleCloseButtonColor = {
