@@ -1,4 +1,7 @@
 {
-	"plugins": ["istanbul"],
+	"plugins": [
+		"istanbul",
+		["@babel/plugin-proposal-decorators", { "version": "2023-05" }]
+	],
 	"sourceMaps": true
 }

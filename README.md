@@ -2,9 +2,10 @@
 
 It provides a feedback modal for your web app without any effort, just import and use.
 
-**How to use?** 
+**How to use?**
 
-## Import 
+## Import
+
 `import 'feedbacky-plugin`
 
 ## Use
@@ -26,12 +27,12 @@ It provides a feedback modal for your web app without any effort, just import an
           textAreaPlaceholder='Maximum 2000 characters can be entered'>
         </feedbacky-plugin>`
 
- ## **Managing the feedbacks** 
+## **Managing the feedbacks**
 
- In order to provide an easy management on feedbacks, a custom event ('feedback-received') is dispatched to window object, You can easily listen the event as in the example
+In order to provide an easy management on feedbacks, a custom event ('feedback-received') is dispatched to window object, You can easily listen the event as in the example
 
- `window.addEventListener("feedback-received", (e) =>
-			// do whatever
-		);`        
+`window.addEventListener("feedback-received", (e) =>
+			console.log(e.detail) // output: {feedback:"Awesome!", device:"mobile", path:"/" }
+		);`
 
- ### If you want to contribute, you are welcome!       
+### If you want to contribute, you are welcome!

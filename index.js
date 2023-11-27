@@ -7,7 +7,7 @@ export class FeedbackyPlugin extends LitElement {
 			open: { type: Boolean, state: true },
 			loading: { type: Boolean, state: true },
 			submitted: { type: Boolean, state: true },
-			allowToSend: { type: Boolean, state: true },
+			_feedback: { type: String, state: true },
 			title: { type: String },
 			titleTextColor: { type: String },
 			submitText: { type: String },
@@ -33,6 +33,7 @@ export class FeedbackyPlugin extends LitElement {
 		this.loading = false;
 		this.submitted = false;
 		this.allowToSend = false;
+		this._feedback = "";
 	}
 
 	static styles = css`
@@ -102,7 +103,7 @@ export class FeedbackyPlugin extends LitElement {
 			min-height: 15rem;
 		}
 
-		.submit {
+		.submit-button {
 			width: 100%;
 			min-height: 2.5rem;
 			margin: auto;
@@ -111,16 +112,16 @@ export class FeedbackyPlugin extends LitElement {
 			font-size: 1.25rem;
 		}
 
-		.submit:hover {
+		.submit-button:hover {
 			cursor: pointer;
 		}
 
-		.submit:disabled {
+		.submit-button:disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
 		}
 
-		.submit:active {
+		.submit-button:active {
 			transform: scale(0.98);
 		}
 	`;
@@ -145,22 +146,33 @@ export class FeedbackyPlugin extends LitElement {
 		return check;
 	}
 
-	setFeedback(e) {
-		if (e.target.value.length >= 10) this.allowToSend = true;
+	sendFeedback() {
 		// send feedback to window with custom event
 		const sendFeedbackEvent = new CustomEvent("feedback-received", {
-			data: {
-				feedback: e.target.value,
+			detail: {
+				feedback: this._feedback,
 				path: window.location.pathname,
 				device: this.isMobileTablet() ? "mobile" : "desktop",
 			},
 			bubbles: true,
 			composed: true,
 		});
-		this.loading = true;
-		this.dispatchEvent(sendFeedbackEvent);
-		this.loading = false;
-		this.submitted = true;
+
+		if (this._feedback.length > 3) {
+			this.loading = true;
+			this.dispatchEvent(sendFeedbackEvent);
+			this.submitted = true;
+			this.loading = false;
+			setTimeout(() => {
+				this.submitted = false;
+				this.open = false;
+				clearTimeout();
+			}, 3000);
+		}
+	}
+
+	onChange(e) {
+		this._feedback = e.target.value;
 	}
 
 	renderButton() {
@@ -271,14 +283,16 @@ export class FeedbackyPlugin extends LitElement {
 								<textarea
 									placeholder=${this.textAreaPlaceholder}
 									required
-									maxlength="{2000}"
-									rows="{12}"
-									@change=${this.setFeedback}>
-								</textarea>
+									resize="none"
+									maxlength="2000"
+									rows="12"
+									cols="50"
+									value="${this.feedback}"
+									@change=${this.onChange}></textarea>
 								<button
-									class="submit"
-									style=${styleMap(styleButton)}
-									disabled=${this.loading || !this.allowToSend}>
+									@click=${this.sendFeedback}
+									class="submit-button"
+									style=${styleMap(styleButton)}>
 									${this.loading ? this.onSubmittingText : this.buttonText}
 								</button>`
 						: html` <h1
